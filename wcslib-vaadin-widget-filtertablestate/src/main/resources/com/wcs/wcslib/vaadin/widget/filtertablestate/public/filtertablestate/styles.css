@@ -1,0 +1,59 @@
+.w-filtertablestate-savebutton{
+    background-image: url(ok.png);
+    background-position: center top;
+    margin-left: 5px;
+}
+.w-filtertablestate-deletebutton{
+    background-image: url(cancel.png);
+    background-position: center center;
+    margin-left: 5px;
+}
+
+.w-filtertablestate-defaultprofilebutton{
+    background-image: url(lock.png);
+    background-position: center center;
+}
+
+.w-filtertablestate-resetbutton{
+    background-image: url(reload.png);
+    background-position: center center;
+    margin-left: 24px;
+}
+.w-filtertablestate-addbutton{
+    background-image: url(folder-add.png);
+    background-position: center center;
+    margin-left: 5px;
+}
+
+.w-filtertablestate-button{
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    display: block;
+    background-repeat: no-repeat;
+    float: right;
+    opacity: inherit;
+
+    -webkit-transition: all 0.3s ease-in-out; 
+    -moz-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out; 
+}
+
+input.w-filtertablestate-textfield.v-textfield{
+    width: -moz-calc(100% - 40px);
+    width: -webkit-calc(100% - 40px);
+    width: calc(100% - 40px);
+}
+
+.w-filtertablestate-layout{
+    padding: 8px !important;
+    min-width: 120px;
+}
+
+.w-filtertablestate-item{
+    margin-left: 3px;
+    cursor: pointer;
+}
+.w-filtertablestate-label{
+    font-weight: bold;
+}
