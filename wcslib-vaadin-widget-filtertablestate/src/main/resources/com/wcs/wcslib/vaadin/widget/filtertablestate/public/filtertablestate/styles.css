@@ -1,27 +1,33 @@
 .w-filtertablestate-savebutton{
-    background-image: url(ok.png);
-    background-position: center top;
+    background-position: -66px -146px;
+    background-image: url("ui-icons_222222_256x240.png"); 
     margin-left: 5px;
+    margin-top: 4px;
 }
 .w-filtertablestate-deletebutton{
-    background-image: url(cancel.png);
-    background-position: center center;
+    background-position: -179px -98px;
+    background-image: url("ui-icons_222222_256x240.png"); 
     margin-left: 5px;
 }
 
 .w-filtertablestate-defaultprofilebutton{
-    background-image: url(lock.png);
-    background-position: center center;
+    background-position: -195px -98px;
+    background-image: url("ui-icons_222222_256x240.png"); 
+}
+
+.w-filtertablestate-defaultprofilebutton-open{
+    background-position: -211px -98px;
+    background-image: url("ui-icons_222222_256x240.png"); 
 }
 
 .w-filtertablestate-resetbutton{
-    background-image: url(reload.png);
-    background-position: center center;
+    background-position: -67px -83px;
+    background-image: url("ui-icons_222222_256x240.png"); 
     margin-left: 24px;
 }
 .w-filtertablestate-addbutton{
-    background-image: url(folder-add.png);
-    background-position: center center;
+    background-position: -19px -131px;
+    background-image: url("ui-icons_222222_256x240.png"); 
     margin-left: 5px;
 }
 
@@ -40,14 +46,16 @@
 }
 
 input.w-filtertablestate-textfield.v-textfield{
-    width: -moz-calc(100% - 40px);
-    width: -webkit-calc(100% - 40px);
-    width: calc(100% - 40px);
+    width: -moz-calc(100% - 25px);
+    width: -webkit-calc(100% - 25px);
+    width: calc(100% - 25px);
+    background-image:none;
+    height:13px;
 }
 
 .w-filtertablestate-layout{
     padding: 8px !important;
-    min-width: 120px;
+    min-width: 152px;
 }
 
 .w-filtertablestate-item{

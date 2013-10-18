@@ -43,6 +43,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
     private static final String SAVE_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-savebutton";
     private static final String DELETE_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-deletebutton";
     private static final String DEFAULT_PROFILE_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-defaultprofilebutton";
+    private static final String DEFAULT_PROFILE_BUTTON_OPEN_STYLE = BUTTON_STYLE + "w-filtertablestate-defaultprofilebutton-open";
     private static final String RESET_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-resetbutton";
     private static final String ADD_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-addbutton";
     private static final String TEXTFIELD_STYLE = "w-filtertablestate-textfield";
@@ -55,7 +56,6 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
     private static final String LABEL_STYLE = "w-filtertablestate-label";
     private static final String SELECTED_STYLE = "v-on";
     private static final String UNSELECTED_STYLE = "v-off";
-    private static final String OPACITY_STYLE = "w-filtertablestate-opacity";
     private VFilterTable filterTable;
     private Element buttonElement;
     private FilterTableStateRpc rpc = RpcProxy.create(FilterTableStateRpc.class, this);
@@ -207,7 +207,6 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
             @Override
             public boolean f(Event e) {
                 $("." + HIDEABLE_STYLE, profileLayoutDiv).css("opacity", "1");
-                $("." + HIDEABLE_STYLE + " ." + OPACITY_STYLE, profileLayoutDiv).css("opacity", "0.5");
                 return true;
             }
         });
@@ -324,11 +323,11 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
 
     private InlineHTML initDefaultProfileButton(final String profile, HTML layout) {
         InlineHTML defaultProfileBtn = new InlineHTML();
-        defaultProfileBtn.setStyleName(DEFAULT_PROFILE_BUTTON_STYLE);
         if (!profile.equals(getState().defaultProfile)) {
-            defaultProfileBtn.addStyleName(OPACITY_STYLE);
+            defaultProfileBtn.addStyleName(DEFAULT_PROFILE_BUTTON_OPEN_STYLE);
             defaultProfileBtn.setTitle("Beállítás alapértelmezett állapotként");
         } else {
+             defaultProfileBtn.addStyleName(DEFAULT_PROFILE_BUTTON_STYLE);
             defaultProfileBtn.setTitle("Alapértelmezett állapot kikapcsolása");
         }
 
