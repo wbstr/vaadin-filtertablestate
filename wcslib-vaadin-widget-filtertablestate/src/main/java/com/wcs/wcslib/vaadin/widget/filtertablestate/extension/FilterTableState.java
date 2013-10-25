@@ -21,8 +21,10 @@ import com.wcs.wcslib.vaadin.widget.filtertablestate.api.FilterTableStateHandler
 import com.wcs.wcslib.vaadin.widget.filtertablestate.api.model.ColumnInfo;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.api.model.FilterTableStateProfile;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.ClickFunction;
-import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.FIlterTableStateSharedState;
+import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.FilterTableStateSharedState;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.FilterTableStateRpc;
+import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.FilterTableStateSharedState.FilterTableStateMessageKey;
+import static com.wcs.wcslib.vaadin.widget.filtertablestate.shared.FilterTableStateSharedState.FilterTableStateMessageKey.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -30,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 import org.tepi.filtertable.FilterTable;
 
@@ -38,7 +41,7 @@ import org.tepi.filtertable.FilterTable;
  * @author gergo
  */
 public class FilterTableState extends AbstractExtension {
-
+    
     private FilterTableStateHandler stateHandler;
     private FilterTableClickFunctionHandler functionHandler;
     private Map<String, FilterTableStateProfile> profiles;
@@ -49,56 +52,54 @@ public class FilterTableState extends AbstractExtension {
         public void setSelectedProfile(String profileName) {
             initSelectedProfile(profiles.get(profileName));
         }
-
+        
         @Override
         public void saveProfile(String profileName) {
             if (profileName.isEmpty()) {
-                Notification.show("Állapot név kötelező!", Notification.Type.ERROR_MESSAGE);
+                Notification.show(getMsg(PROFILE_NAME_REQUIRED), Notification.Type.ERROR_MESSAGE);
                 return;
             }
             if (getState().stateProfiles.contains(profileName)) {
-                Notification.show("Létező állapot név!", Notification.Type.ERROR_MESSAGE);
+                Notification.show(getMsg(PROFILE_NAME_EXIST), Notification.Type.ERROR_MESSAGE);
                 return;
             }
             FilterTableStateProfile profile = FilterTableStateGenerator.generate(table, profileName);
             stateHandler.save(profile);
             profiles.put(profileName, profile);
             initProfilesInState();
-            Notification.show("Állapot mentve");
         }
-
+        
         @Override
         public void deleteProfile(String profileName) {
             stateHandler.delete(profileName);
             profiles.remove(profileName);
             initProfilesInState();
-            Notification.show("Állapot törölve");
         }
-
+        
         @Override
         public void resetProfile() {
             table.setSortContainerPropertyId(null);
             initSelectedProfile(originalProfile);
             initDefaultProfile();
         }
-
+        
         @Override
         public void setSelectedFunction(Integer functionCode) {
             getState().selectedFunctionCode = functionCode;
             functionHandler.setSelected(functionCode);
         }
-
+        
         @Override
         public void setDefaultProfile(String profileName) {
             getState().defaultProfile = profileName;
             stateHandler.setDefaultProfile(profileName);
         }
     };
-
+    
     public FilterTableState() {
         registerRpc(rpc);
     }
-
+    
     public void extend(FilterTable table, FilterTableStateHandler stateHandler, FilterTableClickFunctionHandler functionHandler) {
         extend(table, stateHandler);
         this.functionHandler = functionHandler;
@@ -107,7 +108,7 @@ public class FilterTableState extends AbstractExtension {
             getState().selectedFunctionCode = functionHandler.getDefaultFunctionCode();
         }
     }
-
+    
     public void extend(FilterTable table, FilterTableStateHandler stateHandler) {
         super.extend(table);
         this.table = table;
@@ -115,13 +116,25 @@ public class FilterTableState extends AbstractExtension {
         originalProfile = FilterTableStateGenerator.generate(table, null);
         initProfiles(stateHandler.load());
         initDefaultProfile();
+        setMessages(getDefaultResourceBundle());
     }
-
+    
+    public void setMessages(ResourceBundle resourceBundle) {
+        for (FilterTableStateMessageKey key : FilterTableStateMessageKey.values()) {
+            if (resourceBundle.containsKey(key.getKey())) {
+                String value = resourceBundle.getString(key.getKey());
+                if (value != null) {
+                    getState().messages.put(key, value);
+                }
+            }
+        }
+    }
+    
     @Override
-    protected FIlterTableStateSharedState getState() {
-        return (FIlterTableStateSharedState) super.getState();
+    protected FilterTableStateSharedState getState() {
+        return (FilterTableStateSharedState) super.getState();
     }
-
+    
     private void initProfiles(Set<FilterTableStateProfile> profiles) {
         this.profiles = new HashMap<String, FilterTableStateProfile>();
         if (profiles != null) {
@@ -138,13 +151,13 @@ public class FilterTableState extends AbstractExtension {
         }
         initProfilesInState();
     }
-
+    
     private void initProfilesInState() {
         List<String> profiles = new ArrayList<String>(this.profiles.keySet());
         Collections.sort(profiles);
         getState().stateProfiles = profiles;
     }
-
+    
     private void initDefaultProfile() {
         FilterTableStateProfile defaultProfile = profiles.get(stateHandler.getDefaultProfile());
         if (defaultProfile == null) {
@@ -154,24 +167,24 @@ public class FilterTableState extends AbstractExtension {
         getState().defaultProfile = defaultProfile.getName();
         initSelectedProfile(defaultProfile);
     }
-
+    
     private void initSelectedProfile(FilterTableStateProfile selectedProfile) {
         if (selectedProfile == null) {
             return;
         }
         getState().selectedProfile = selectedProfile.getName();
-
+        
         List<ColumnInfo> columnInfos = new ArrayList<ColumnInfo>(selectedProfile.getColumnInfos());
         Collections.sort(columnInfos, new ColumnInfoComparator());
-
+        
         Object[] visibleColumns = new Object[columnInfos.size()];
-
+        
         for (int i = 0; i < columnInfos.size(); i++) {
             ColumnInfo columnInfo = columnInfos.get(i);
             visibleColumns[i] = columnInfo.getPropertyId();
         }
         table.setVisibleColumns(visibleColumns);
-
+        
         for (ColumnInfo columnInfo : columnInfos) {
             table.setFilterFieldValue(columnInfo.getPropertyId(), columnInfo.getFilter());
             table.setColumnCollapsed(columnInfo.getPropertyId(), columnInfo.isCollapsed());
@@ -182,9 +195,17 @@ public class FilterTableState extends AbstractExtension {
             }
         }
     }
-
+    
+    private ResourceBundle getDefaultResourceBundle() {
+        return ResourceBundle.getBundle("com.wcs.wcslib.vaadin.widget.filtertablestate.message.FilterTableStateMessages");
+    }
+    
+    private String getMsg(FilterTableStateMessageKey key) {
+        return getState().messages.get(key);
+    }
+    
     private static class ColumnInfoComparator implements Comparator<ColumnInfo> {
-
+        
         @Override
         public int compare(ColumnInfo o1, ColumnInfo o2) {
             Integer ndx1 = o1.getIndex();
@@ -192,7 +213,7 @@ public class FilterTableState extends AbstractExtension {
             return ndx1.compareTo(ndx2);
         }
     }
-
+    
     private boolean isValidFunctionCode(Integer functionCode) {
         for (ClickFunction function : getState().functions) {
             if (function.getCode().equals(functionCode)) {

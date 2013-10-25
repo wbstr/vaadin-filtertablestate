@@ -81,15 +81,17 @@ public class WidgetTestApplication extends UI {
         return new FilterTableStateHandler() {
             @Override
             public void save(FilterTableStateProfile profile) {
+                Notification.show("The profile has been saved!");
             }
 
             @Override
             public void delete(String profileName) {
+                Notification.show("The profile has been removed!");
             }
 
             @Override
             public Set<FilterTableStateProfile> load() {
-                return new HashSet<FilterTableStateProfile>();
+                return buildProfiles();
             }
 
             @Override
@@ -99,21 +101,32 @@ public class WidgetTestApplication extends UI {
 
             @Override
             public void setDefaultProfile(String profileName) {
-                Notification.show("Alapértelmezett profil kiválasztva: " + profileName);
+                if (profileName == null) {
+                    Notification.show("Default profile has been turned off!");
+                } else {
+                    Notification.show("Default profile has been set: " + profileName);
+                }
             }
         };
     }
 
     private FilterTableClickFunctionHandler createClickFunctionHandler() {
         return new FilterTableClickFunctionHandler() {
+            Set<ClickFunction> functions = createClickFunctions();
+
             @Override
             public Set<ClickFunction> load() {
-                return createClickFunctions();
+                return functions;
             }
 
             @Override
             public void setSelected(Integer functionCode) {
-                Notification.show("Funkció kiválasztva: " + functionCode);
+                for (ClickFunction f : functions) {
+                    if (f.getCode().equals(functionCode)) {
+                        Notification.show("Function has been selected: " + f.getName());
+                        return;
+                    }
+                }
             }
 
             @Override
@@ -125,8 +138,9 @@ public class WidgetTestApplication extends UI {
 
     private Set<ClickFunction> createClickFunctions() {
         Set<ClickFunction> functions = new HashSet<ClickFunction>();
-        functions.add(new ClickFunction(0, "Navigálás"));
-        functions.add(new ClickFunction(1, "Gyorsnézet"));
+        functions.add(new ClickFunction(0, "Single click selection"));
+        functions.add(new ClickFunction(1, "Double click selection"));
+        functions.add(new ClickFunction(3, "Disable selection"));
         return functions;
     }
 
@@ -135,25 +149,22 @@ public class WidgetTestApplication extends UI {
         Set<ColumnInfo> columnInfos = new HashSet<ColumnInfo>();
 
 
-        columnInfos.add(new ColumnInfo("id", null, SortOrder.ASCENDING, false, -1, 0));
-        columnInfos.add(new ColumnInfo("name", "a", SortOrder.DESCENDING, true, -1, 1));
+        columnInfos.add(new ColumnInfo("id", "", SortOrder.ASCENDING, false, -1, 0));
+        columnInfos.add(new ColumnInfo("name", "", SortOrder.DESCENDING, true, -1, 1));
         columnInfos.add(new ColumnInfo("state", State.PROCESSING, SortOrder.UNSORTED, false, -1, 2));
-        columnInfos.add(new ColumnInfo("ilyenNincs", State.PROCESSING, SortOrder.UNSORTED, false, -1, 2));
-
-        Date from = new GregorianCalendar(2013, 8, 1, 8, 0, 0).getTime();
-        Date to = new GregorianCalendar(2013, 9, 1, 9, 0, 0).getTime();
-        columnInfos.add(new ColumnInfo("date", new DateInterval(from, to), SortOrder.UNSORTED, false, -1, 5));
-        columnInfos.add(new ColumnInfo("validated", true, SortOrder.UNSORTED, false, -1, 3));
-        profiles.add(new FilterTableStateProfile("Teszt", columnInfos));
-
-        columnInfos = new HashSet<ColumnInfo>();
-        columnInfos.add(new ColumnInfo("id", "21", SortOrder.ASCENDING, false, -1, 0));
-        columnInfos.add(new ColumnInfo("name", null, SortOrder.DESCENDING, false, -1, 1));
-        columnInfos.add(new ColumnInfo("state", State.PROCESSED, SortOrder.UNSORTED, false, -1, 2));
 
         columnInfos.add(new ColumnInfo("date", null, SortOrder.UNSORTED, false, -1, 5));
+        columnInfos.add(new ColumnInfo("validated", false, SortOrder.UNSORTED, false, -1, 3));
+        profiles.add(new FilterTableStateProfile("Test profile 1", columnInfos));
+
+        columnInfos = new HashSet<ColumnInfo>();
+        columnInfos.add(new ColumnInfo("id", "", SortOrder.UNSORTED, false, -1, 0));
+        columnInfos.add(new ColumnInfo("name", "", SortOrder.UNSORTED, false, -1, 1));
+        columnInfos.add(new ColumnInfo("state", State.FINISHED, SortOrder.UNSORTED, false, -1, 2));
+
+        columnInfos.add(new ColumnInfo("date", null, SortOrder.ASCENDING, false, -1, 5));
         columnInfos.add(new ColumnInfo("validated", true, SortOrder.UNSORTED, false, -1, 3));
-        profiles.add(new FilterTableStateProfile("Teszt 2", columnInfos));
+        profiles.add(new FilterTableStateProfile("Test profile 2", columnInfos));
         return profiles;
     }
 

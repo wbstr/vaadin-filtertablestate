@@ -38,8 +38,10 @@ import static com.google.gwt.query.client.GQuery.*;
 import com.google.gwt.user.client.Event;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.extension.FilterTableState;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.ClickFunction;
-import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.FIlterTableStateSharedState;
+import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.FilterTableStateSharedState;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.FilterTableStateRpc;
+import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.FilterTableStateSharedState.FilterTableStateMessageKey;
+import static com.wcs.wcslib.vaadin.widget.filtertablestate.shared.FilterTableStateSharedState.FilterTableStateMessageKey.*;
 
 /**
  *
@@ -76,8 +78,8 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
     private HTML newProfileDiv;
 
     @Override
-    public FIlterTableStateSharedState getState() {
-        return (FIlterTableStateSharedState) super.getState();
+    public FilterTableStateSharedState getState() {
+        return (FilterTableStateSharedState) super.getState();
     }
 
     @Override
@@ -154,7 +156,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         if (getState().functions.isEmpty()) {
             return;
         }
-        VLabel vLabel = new VLabel("Funkciók");
+        VLabel vLabel = new VLabel(getMsg(FUNCTIONS));
         vLabel.addStyleName(LABEL_STYLE);
         $(functionMainDiv).append($(vLabel));
         layout.add(functionMainDiv);
@@ -163,6 +165,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
 
             HTML functionDiv = new HTML();
             functionDiv.addStyleName(ITEM_STYLE);
+            functionDiv.setTitle(getMsg(SELECT_FUNCTION));
 
             InlineHTML functionSpan = new InlineHTML("<div>" + function.getName() + "</div>");
 
@@ -189,7 +192,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         HTML functionMainDiv = new HTML();
         functionMainDiv.addStyleName(COLUMN_LAYOUT_STYLE);
 
-        VLabel vLabel = new VLabel("Oszlopok");
+        VLabel vLabel = new VLabel(getMsg(COLUMNS));
         vLabel.addStyleName(LABEL_STYLE);
         $(functionMainDiv).append($(vLabel));
         layout.add(functionMainDiv);
@@ -228,7 +231,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
                 return true;
             }
         });
-        VLabel vLabel = new VLabel("Állapotok");
+        VLabel vLabel = new VLabel(getMsg(PROFILES));
         vLabel.addStyleName(LABEL_STYLE);
         $(profileLayoutDiv).append($(vLabel));
 
@@ -259,7 +262,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
     private void initAddProfileBtn(VLabel vLabel, HTML layout) {
         InlineHTML addBtn = new InlineHTML();
         addBtn.setStyleName(ADD_BUTTON_STYLE);
-        addBtn.setTitle("Új állapot");
+        addBtn.setTitle(getMsg(NEW_PROFILE));
         $(addBtn).click(new Function() {
             @Override
             public void f() {
@@ -278,7 +281,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
     private void initResetProfileBtn(VLabel vLabel, HTML layout) {
         InlineHTML resetBtn = new InlineHTML();
         resetBtn.setStyleName(RESET_BUTTON_STYLE);
-        resetBtn.setTitle("Alapértelmezett állapot");
+        resetBtn.setTitle(getMsg(DEFAULT_PROFILE));
         $(resetBtn).click(new Function() {
             @Override
             public void f() {
@@ -297,7 +300,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         InlineHTML profileSpan = new InlineHTML("<div>" + profile + "</div>");
         profileDiv.addStyleName(ITEM_STYLE);
 
-        profileDiv.setTitle("Állapot kiválasztása");
+        profileDiv.setTitle(getMsg(SELECT_PROFILE));
         if (getState().selectedProfile != null && getState().selectedProfile.equals(profile)) {
             profileDiv.addStyleName(SELECTED_STYLE);
         } else {
@@ -319,7 +322,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
     private InlineHTML initProfileDeleteButton(final String profile, HTML layout) {
         InlineHTML delBtn = new InlineHTML();
         delBtn.setStyleName(DELETE_BUTTON_STYLE);
-        delBtn.setTitle("Állapot törlése");
+        delBtn.setTitle(getMsg(DELETE_PROFILE));
         $(delBtn).click(new Function() {
             @Override
             public void f() {
@@ -336,10 +339,10 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         InlineHTML defaultProfileBtn = new InlineHTML();
         if (!profile.equals(getState().defaultProfile)) {
             defaultProfileBtn.addStyleName(DEFAULT_PROFILE_BUTTON_OPEN_STYLE);
-            defaultProfileBtn.setTitle("Beállítás alapértelmezett állapotként");
+            defaultProfileBtn.setTitle(getMsg(DEFAULT_PROFILE_ON));
         } else {
             defaultProfileBtn.addStyleName(DEFAULT_PROFILE_BUTTON_STYLE);
-            defaultProfileBtn.setTitle("Alapértelmezett állapot kikapcsolása");
+            defaultProfileBtn.setTitle(getMsg(DEFAULT_PROFILE_OFF));
         }
 
         $(defaultProfileBtn).click(new Function() {
@@ -370,7 +373,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
 
         InlineHTML saveBtn = new InlineHTML();
         saveBtn.setStyleName(SAVE_BUTTON_STYLE);
-        saveBtn.setTitle("Állapot mentése");
+        saveBtn.setTitle(getMsg(SAVE_PROFILE));
 
         $(saveBtn).click(new Function() {
             @Override
@@ -385,5 +388,9 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         $(newProfileDiv).append($(saveBtn));
         layout.add(newProfileDiv);
         $(newProfileDiv).slideUp(0);
+    }
+
+    private String getMsg(FilterTableStateMessageKey key) {
+        return getState().messages.get(key);
     }
 }
