@@ -36,7 +36,6 @@ import com.wcs.wcslib.vaadin.widget.filtertablestate.extension.FilterTableClickF
 import com.wcs.wcslib.vaadin.widget.filtertablestate.extension.FilterTableState;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Random;
@@ -44,7 +43,6 @@ import java.util.Set;
 import org.tepi.filtertable.FilterDecorator;
 import org.tepi.filtertable.FilterGenerator;
 import org.tepi.filtertable.FilterTable;
-import org.tepi.filtertable.datefilter.DateInterval;
 import org.tepi.filtertable.numberfilter.NumberFilterPopupConfig;
 
 /**
@@ -54,6 +52,33 @@ import org.tepi.filtertable.numberfilter.NumberFilterPopupConfig;
 public class WidgetTestApplication extends UI {
 
     private VerticalLayout layout;
+
+    private enum FunctionCode {
+
+        SINGLE_SELECT(0, true, false, "Single selection"),
+        MULTI_SELECT(1, true, true, "Multi selection"),
+        DISABLE_SELECT(2, false, false, "Disable selection");
+        private int code;
+        private boolean selectable;
+        private boolean multiselect;
+        private String label;
+
+        private FunctionCode(int code, boolean selectable, boolean multiselect, String label) {
+            this.code = code;
+            this.selectable = selectable;
+            this.multiselect = multiselect;
+            this.label = label;
+        }
+
+        static FunctionCode findByCode(int code) {
+            for (FunctionCode functionCode : values()) {
+                if (functionCode.code == code) {
+                    return functionCode;
+                }
+            }
+            return null;
+        }
+    }
 
     @Override
     protected void init(VaadinRequest request) {
@@ -121,26 +146,28 @@ public class WidgetTestApplication extends UI {
 
             @Override
             public void setSelected(Integer functionCode) {
-                for (ClickFunction f : functions) {
-                    if (f.getCode().equals(functionCode)) {
-                        Notification.show("Function has been selected: " + f.getName());
-                        return;
-                    }
+                FunctionCode fc = FunctionCode.findByCode(functionCode);
+                if (fc != null) {
+                    filterTable.setSelectable(fc.selectable);
+                    filterTable.setMultiSelect(fc.multiselect);
+                    filterTable.setValue(null);
+                    filterTable.refreshRowCache();
+                    Notification.show("Function has been selected: " + fc.label);
                 }
             }
 
             @Override
             public Integer getDefaultFunctionCode() {
-                return 0;
+                return FunctionCode.DISABLE_SELECT.code;
             }
         };
     }
 
     private Set<ClickFunction> createClickFunctions() {
         Set<ClickFunction> functions = new HashSet<ClickFunction>();
-        functions.add(new ClickFunction(0, "Single click selection"));
-        functions.add(new ClickFunction(1, "Double click selection"));
-        functions.add(new ClickFunction(3, "Disable selection"));
+        for (FunctionCode functionCode : FunctionCode.values()) {
+            functions.add(new ClickFunction(functionCode.code, functionCode.label));
+        }
         return functions;
     }
 
