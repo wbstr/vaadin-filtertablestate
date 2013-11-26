@@ -12,7 +12,7 @@
     <artifactId>wcslib-vaadin-widget-filtertablestate-bundle</artifactId>
     <packaging>jar</packaging>
     <version>1.1-SNAPSHOT</version>
-    <name>wcslib-vaadin-widget-filtertablestate-bundle</name>
+    <name>FilterTableState</name>
 
     <!-- NOTE: These dependency declarations are only required to sort this project to the 
        end of the line in the multimodule build. 
