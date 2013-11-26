@@ -36,6 +36,7 @@ import com.google.gwt.query.client.GQuery;
 import com.google.gwt.query.client.Function;
 import static com.google.gwt.query.client.GQuery.*;
 import com.google.gwt.user.client.Event;
+import com.vaadin.client.VConsole;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.extension.FilterTableState;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.ClickFunction;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.FilterTableStateSharedState;
@@ -220,14 +221,14 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         $("." + PROFILE_LAYOUT_STYLE).live(Event.ONMOUSEOVER, new Function() {
             @Override
             public boolean f(Event e) {
-                $("." + HIDEABLE_STYLE, profileLayoutDiv).css("opacity", "1");
+                displayBtn(profileLayoutDiv, false);
                 return true;
             }
         });
         $("." + PROFILE_LAYOUT_STYLE).live(Event.ONMOUSEOUT, new Function() {
             @Override
             public boolean f(Event e) {
-                $("." + HIDEABLE_STYLE, profileLayoutDiv).css("opacity", "0");
+                displayBtn(profileLayoutDiv, true);
                 return true;
             }
         });
@@ -256,7 +257,17 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
 
             $(profileLayoutDiv).append($(profileDiv));
         }
-        $("." + HIDEABLE_STYLE, profileLayoutDiv).css("opacity", "0");
+        displayBtn(profileLayoutDiv, true);
+    }
+
+    private void displayBtn(HTML profileLayoutDiv, boolean hide) {
+        GQuery hideAble = $("." + HIDEABLE_STYLE, profileLayoutDiv);
+        String opacity = hide ? "0" : "1";
+
+        for (Element element : hideAble.elements()) {
+            GQuery btns = $("." + BUTTON_STYLE, element);
+            btns.css("opacity", opacity);
+        }
     }
 
     private void initAddProfileBtn(VLabel vLabel, HTML layout) {

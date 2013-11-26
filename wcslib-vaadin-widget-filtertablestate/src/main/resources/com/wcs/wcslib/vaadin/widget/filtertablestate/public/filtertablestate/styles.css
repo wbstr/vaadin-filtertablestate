@@ -38,7 +38,6 @@
     display: block;
     background-repeat: no-repeat;
     float: right;
-    opacity: inherit;
 
     -webkit-transition: all 0.3s ease-in-out; 
     -moz-transition: all 0.3s ease-in-out;
