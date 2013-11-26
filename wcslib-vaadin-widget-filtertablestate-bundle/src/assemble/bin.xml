@@ -19,6 +19,12 @@
             </includes>
             <binaries>
                 <unpack>true</unpack>
+                <unpackOptions>
+                    <excludes>
+                        <exclude>META-INF/**/wcslib-vaadin-widget-filtertablestate-api/</exclude>
+                        <exclude>META-INF/**/wcslib-vaadin-widget-filtertablestate/</exclude>
+                    </excludes>
+                </unpackOptions> 
                 <includeDependencies>false</includeDependencies>
             </binaries>
         </moduleSet>
