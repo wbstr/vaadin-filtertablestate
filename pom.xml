@@ -13,6 +13,11 @@
         <module>wcslib-vaadin-widget-filtertablestate-bundle</module>
     </modules>
     
+    <scm>
+        <connection>scm:git:git@github.com:wbstr/vaadin-filtertablestate.git</connection>
+        <developerConnection>scm:git:git@github.com:wbstr/vaadin-filtertablestate.git</developerConnection>
+    </scm>
+    
     <licenses>
         <license>
             <name>Apache 2</name>
