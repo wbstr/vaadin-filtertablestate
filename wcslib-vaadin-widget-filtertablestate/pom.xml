@@ -16,7 +16,6 @@
     
     <properties>
         <version.vaadin>7.1.0</version.vaadin>
-        <widgetset>com.wcs.wcslib.vaadin.widget.filtertablestate.FilterTableStateWidgetSet</widgetset>
     </properties>
     
 

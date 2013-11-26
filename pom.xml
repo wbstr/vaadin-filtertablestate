@@ -7,7 +7,11 @@
     <packaging>pom</packaging>
     <name>wcslib-vaadin-widget-filtertablestate-parent</name>
     
+    <properties>
+        <widgetset>com.wcs.wcslib.vaadin.widget.filtertablestate.FilterTableStateWidgetSet</widgetset>
+    </properties>
     <modules>
+        
         <module>wcslib-vaadin-widget-filtertablestate-api</module>
         <module>wcslib-vaadin-widget-filtertablestate</module>
         <module>wcslib-vaadin-widget-filtertablestate-bundle</module>

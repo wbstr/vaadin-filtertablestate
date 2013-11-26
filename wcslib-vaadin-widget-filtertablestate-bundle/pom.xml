@@ -25,11 +25,13 @@
             <groupId>com.wcs.wcslib</groupId>
             <artifactId>wcslib-vaadin-widget-filtertablestate-api</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.wcs.wcslib</groupId>
             <artifactId>wcslib-vaadin-widget-filtertablestate</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
