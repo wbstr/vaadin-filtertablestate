@@ -10,7 +10,7 @@
     <modules>
         <module>wcslib-vaadin-widget-filtertablestate-api</module>
         <module>wcslib-vaadin-widget-filtertablestate</module>
-        <module>wcslib-vaadin-widget-filtertablestate-assemble</module>
+        <module>wcslib-vaadin-widget-filtertablestate-bundle</module>
     </modules>
     
     <licenses>

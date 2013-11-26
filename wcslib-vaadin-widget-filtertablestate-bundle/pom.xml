@@ -9,10 +9,10 @@
     
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wcs.wcslib</groupId>
-    <artifactId>wcslib-vaadin-widget-filtertablestate-assemble</artifactId>
+    <artifactId>wcslib-vaadin-widget-filtertablestate-bundle</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>wcslib-vaadin-widget-filtertablestate-assemble</name>
+    <name>wcslib-vaadin-widget-filtertablestate-bundle</name>
 
     <!-- NOTE: These dependency declarations are only required to sort this project to the 
        end of the line in the multimodule build. 
@@ -48,6 +48,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
                     <descriptors>
                         <descriptor>src/assemble/bin.xml</descriptor>
                     </descriptors>
