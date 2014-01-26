@@ -1,69 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     
-    <parent>
-        <groupId>com.wcs.wcslib</groupId>
-        <artifactId>wcslib-vaadin-widget-filtertablestate-parent</artifactId>
-        <version>1.1-SNAPSHOT</version>
-    </parent>
-    
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wcs.wcslib</groupId>
     <artifactId>wcslib-vaadin-widget-filtertablestate-bundle</artifactId>
     <packaging>jar</packaging>
     <version>1.1-SNAPSHOT</version>
     <name>FilterTableState</name>
+    
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
 
-    <!-- NOTE: These dependency declarations are only required to sort this project to the 
-       end of the line in the multimodule build. 
-       
-         Since we only include the child1 module in our assembly, we only need to ensure this
-         distribution project builds AFTER that one...
-    -->
     <dependencies>
         <dependency>
-            <groupId>com.wcs.wcslib</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>wcslib-vaadin-widget-filtertablestate-api</artifactId>
-            <version>1.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.wcs.wcslib</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>wcslib-vaadin-widget-filtertablestate</artifactId>
-            <version>1.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.2</version>
                 <executions>
                     <execution>
-                        <id>distro-assembly</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>${project.groupId}:wcslib-vaadin-widget-filtertablestate</include>
+                                    <include>${project.groupId}:wcslib-vaadin-widget-filtertablestate-api</include>
+                                </includes>
+                            </artifactSet>            
+                            <filters>
+                                <filter>
+                                    <artifact>${project.groupId}:wcslib-vaadin-widget-filtertablestate</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>META-INF/maven/**</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>${project.groupId}:wcslib-vaadin-widget-filtertablestate-api</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>META-INF/**</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>${project.groupId}:${project.artifactId}</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>META-INF/**/pom.xml</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>                        
+                        </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>replace-pom-with-dependency-reduced</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>                        
+                        <configuration>
+                            <target>
+                                <jar destfile="${project.build.directory}/${project.build.finalName}.jar" 
+                                     update="true">
+                                    <zipfileset dir="${basedir}" includes="dependency-reduced-pom.xml" 
+                                                fullpath="META-INF/maven/${project.groupId}/${project.artifactId}/pom.xml"/>
+                                </jar>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.5</version>
                 <configuration>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptors>
-                        <descriptor>src/assemble/bin.xml</descriptor>
-                    </descriptors>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
-                        <manifestEntries>
-                            <Vaadin-Package-Version>1</Vaadin-Package-Version>
-                            <Vaadin-Widgetsets>${widgetset}</Vaadin-Widgetsets>
-                            <License-Title>Apache License 2.0</License-Title>
-                        </manifestEntries>
-                    </archive>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>

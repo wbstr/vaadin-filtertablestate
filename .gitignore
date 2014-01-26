@@ -10,3 +10,4 @@ nbactions.xml
 target/
 gwt-unitCache/
 widgetsets/
+/wcslib-vaadin-widget-filtertablestate-bundle/dependency-reduced-pom.xml
