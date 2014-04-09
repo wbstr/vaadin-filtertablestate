@@ -189,7 +189,13 @@ public class FilterTableState extends AbstractExtension {
         for (ColumnInfo columnInfo : columnInfos) {
             table.setFilterFieldValue(columnInfo.getPropertyId(), columnInfo.getFilter());
             table.setColumnCollapsed(columnInfo.getPropertyId(), columnInfo.isCollapsed());
-            table.setColumnWidth(columnInfo.getPropertyId(), columnInfo.getWidth());
+            if (columnInfo.getWidth() < 0 && columnInfo.getWidthRatio() != 0) {
+				table.setColumnExpandRatio(columnInfo.getPropertyId(),
+						columnInfo.getWidthRatio());
+			} else {
+				table.setColumnWidth(columnInfo.getPropertyId(),
+						columnInfo.getWidth());
+			}
             if (columnInfo.getSortOrder().isSorted()) {
                 table.sort(new Object[]{columnInfo.getPropertyId()}, new boolean[]{columnInfo.getSortOrder().isAscending()});
                 table.setSortContainerPropertyId(columnInfo.getPropertyId());
