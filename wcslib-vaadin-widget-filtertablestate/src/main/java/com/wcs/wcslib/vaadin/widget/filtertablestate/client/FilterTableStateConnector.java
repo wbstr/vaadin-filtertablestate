@@ -55,6 +55,8 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
     private static final String HIDEABLE_STYLE = "w-filtertablestate-hideable ";
     private static final String BUTTON_STYLE = "w-filtertablestate-button ";
     private static final String SAVE_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-savebutton";
+    private static final String RESAVE_BUTTON_STYLE = BUTTON_STYLE
+			+ "w-filtertablestate-resavebutton";
     private static final String DELETE_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-deletebutton";
     private static final String DEFAULT_PROFILE_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-defaultprofilebutton";
     private static final String DEFAULT_PROFILE_BUTTON_OPEN_STYLE = BUTTON_STYLE + "w-filtertablestate-defaultprofilebutton-open";
@@ -245,8 +247,22 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
             HTML hideableDiv = new HTML();
             $(hideableDiv).css("display", "inline");
             hideableDiv.addStyleName(HIDEABLE_STYLE);
+            
+            
+            InlineHTML saveProfileBtn = null;
+			if (getState().selectedProfile != null
+					&& getState().selectedProfile.equals(profile)) {
+				saveProfileBtn = initProfileSaveButton(profile,
+						profileLayoutDiv);
+			}
+            
             InlineHTML deleteProfileBtn = initProfileDeleteButton(profile, profileLayoutDiv);
             InlineHTML defaultProfileBtn = initDefaultProfileButton(profile, profileLayoutDiv);
+            
+            if (saveProfileBtn != null) {
+				$(hideableDiv).append($(saveProfileBtn));
+			}
+            
             $(hideableDiv).append($(deleteProfileBtn));
             $(hideableDiv).append($(defaultProfileBtn));
 
@@ -329,6 +345,23 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         $(layout).append($(profileDiv));
         return profileDiv;
     }
+    
+    private InlineHTML initProfileSaveButton(final String profile, HTML layout) {
+		InlineHTML saveBtn = new InlineHTML();
+		saveBtn.setStyleName(RESAVE_BUTTON_STYLE);
+		saveBtn.setTitle(getMsg(SAVE_PROFILE));
+		$(saveBtn).click(new Function() {
+			@Override
+			public void f() {
+				/*
+				 * overlay.hide(); overlay.removeFromParent();
+				 */
+				rpc.saveProfile(profile, false);
+			}
+		});
+		$(layout).append($(saveBtn));
+		return saveBtn;
+	}
 
     private InlineHTML initProfileDeleteButton(final String profile, HTML layout) {
         InlineHTML delBtn = new InlineHTML();
