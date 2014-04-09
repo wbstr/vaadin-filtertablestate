@@ -29,7 +29,7 @@ public interface FilterTableStateRpc extends ServerRpc {
 
     public void setDefaultProfile(String profileName);
 
-    public void saveProfile(String profileName);
+    public void saveProfile(String profileName, boolean newProfile);
 
     public void deleteProfile(String profileName);
 
