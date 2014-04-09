@@ -54,12 +54,12 @@ public class FilterTableState extends AbstractExtension {
         }
 
         @Override
-        public void saveProfile(String profileName) {
+        public void saveProfile(String profileName, boolean newProfile) {
             if (profileName.isEmpty()) {
                 Notification.show(getMsg(PROFILE_NAME_REQUIRED), Notification.Type.ERROR_MESSAGE);
                 return;
             }
-            if (getState().stateProfiles.contains(profileName)) {
+            if (newProfile && getState().stateProfiles.contains(profileName)) {
                 Notification.show(getMsg(PROFILE_NAME_EXIST), Notification.Type.ERROR_MESSAGE);
                 return;
             }
