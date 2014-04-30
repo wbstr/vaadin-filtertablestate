@@ -176,21 +176,21 @@ public class WidgetTestApplication extends UI {
         Set<ColumnInfo> columnInfos = new HashSet<ColumnInfo>();
 
 
-        columnInfos.add(new ColumnInfo("id", "", SortOrder.ASCENDING, false, -1, 0));
-        columnInfos.add(new ColumnInfo("name", "", SortOrder.DESCENDING, true, -1, 1));
-        columnInfos.add(new ColumnInfo("state", State.PROCESSING, SortOrder.UNSORTED, false, -1, 2));
+        columnInfos.add(new ColumnInfo("id", "", SortOrder.ASCENDING, false, -1, 0, 0));
+        columnInfos.add(new ColumnInfo("name", "", SortOrder.DESCENDING, true, -1, 0, 1));
+        columnInfos.add(new ColumnInfo("state", State.PROCESSING, SortOrder.UNSORTED, false, -1, 0, 2));
 
-        columnInfos.add(new ColumnInfo("date", null, SortOrder.UNSORTED, false, -1, 5));
-        columnInfos.add(new ColumnInfo("validated", false, SortOrder.UNSORTED, false, -1, 3));
+        columnInfos.add(new ColumnInfo("date", null, SortOrder.UNSORTED, false, -1, 0, 5));
+        columnInfos.add(new ColumnInfo("validated", false, SortOrder.UNSORTED, false, -1, 0, 3));
         profiles.add(new FilterTableStateProfile("Test profile 1", columnInfos));
 
         columnInfos = new HashSet<ColumnInfo>();
-        columnInfos.add(new ColumnInfo("id", "", SortOrder.UNSORTED, false, -1, 0));
-        columnInfos.add(new ColumnInfo("name", "", SortOrder.UNSORTED, false, -1, 1));
-        columnInfos.add(new ColumnInfo("state", State.FINISHED, SortOrder.UNSORTED, false, -1, 2));
+        columnInfos.add(new ColumnInfo("id", "", SortOrder.UNSORTED, false, -1, 0, 0));
+        columnInfos.add(new ColumnInfo("name", "", SortOrder.UNSORTED, false, -1, 0, 1));
+        columnInfos.add(new ColumnInfo("state", State.FINISHED, SortOrder.UNSORTED, false, -1, 0, 2));
 
-        columnInfos.add(new ColumnInfo("date", null, SortOrder.ASCENDING, false, -1, 5));
-        columnInfos.add(new ColumnInfo("validated", true, SortOrder.UNSORTED, false, -1, 3));
+        columnInfos.add(new ColumnInfo("date", null, SortOrder.ASCENDING, false, -1, 0, 5));
+        columnInfos.add(new ColumnInfo("validated", true, SortOrder.UNSORTED, false, -1, 0, 3));
         profiles.add(new FilterTableStateProfile("Test profile 2", columnInfos));
         return profiles;
     }

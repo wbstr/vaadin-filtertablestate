@@ -19,11 +19,13 @@
 .w-filtertablestate-defaultprofilebutton{
     background-position: -195px -98px;
     background-image: url("ui-icons_222222_256x240.png"); 
+    margin-left: 5px;
 }
 
 .w-filtertablestate-defaultprofilebutton-open{
     background-position: -211px -98px;
     background-image: url("ui-icons_222222_256x240.png"); 
+    margin-left: 5px;
 }
 
 .w-filtertablestate-resetbutton{

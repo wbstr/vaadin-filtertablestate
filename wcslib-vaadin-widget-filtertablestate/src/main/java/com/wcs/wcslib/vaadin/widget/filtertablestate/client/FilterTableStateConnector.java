@@ -55,8 +55,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
     private static final String HIDEABLE_STYLE = "w-filtertablestate-hideable ";
     private static final String BUTTON_STYLE = "w-filtertablestate-button ";
     private static final String SAVE_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-savebutton";
-    private static final String RESAVE_BUTTON_STYLE = BUTTON_STYLE
-			+ "w-filtertablestate-resavebutton";
+    private static final String RESAVE_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-resavebutton";
     private static final String DELETE_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-deletebutton";
     private static final String DEFAULT_PROFILE_BUTTON_STYLE = BUTTON_STYLE + "w-filtertablestate-defaultprofilebutton";
     private static final String DEFAULT_PROFILE_BUTTON_OPEN_STYLE = BUTTON_STYLE + "w-filtertablestate-defaultprofilebutton-open";
@@ -110,14 +109,6 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         buttonElement.addClassName(COLUMN_SELECTOR_STYLE);
 
         addButtonClickListener(buttonElement);
-//        querySelector = $("." + COLUMN_SELECTOR_STYLE_CLASS, filterTable);
-//        querySelector.live(Event.ONCLICK, new Function() {
-//            @Override
-//            public boolean f(Event e) {
-//                popupOpenClickListener();
-//                return true;
-//            }
-//        });
     }
 
     private native void addButtonClickListener(Element el) /*-{
@@ -180,8 +171,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
             $(functionDiv).click(new Function() {
                 @Override
                 public void f() {
-                    overlay.hide();
-                    overlay.removeFromParent();
+                    closeOverlay();
                     rpc.setSelectedFunction(function.getCode());
                 }
             });
@@ -208,8 +198,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
                 @Override
                 public void f() {
                     action.execute();
-                    overlay.hide();
-                    overlay.removeFromParent();
+                    closeOverlay();
                 }
             });
             $(functionMainDiv).append($(html));
@@ -247,25 +236,24 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
             HTML hideableDiv = new HTML();
             $(hideableDiv).css("display", "inline");
             hideableDiv.addStyleName(HIDEABLE_STYLE);
-            
-            
+
+
             InlineHTML saveProfileBtn = null;
-			if (getState().selectedProfile != null
-					&& getState().selectedProfile.equals(profile)) {
-				saveProfileBtn = initProfileSaveButton(profile,
-						profileLayoutDiv);
-			}
-            
+            if (getState().selectedProfile != null
+                    && getState().selectedProfile.equals(profile)) {
+                saveProfileBtn = initProfileSaveButton(profile,
+                        profileLayoutDiv);
+            }
+
             InlineHTML deleteProfileBtn = initProfileDeleteButton(profile, profileLayoutDiv);
             InlineHTML defaultProfileBtn = initDefaultProfileButton(profile, profileLayoutDiv);
-            
-            if (saveProfileBtn != null) {
-				$(hideableDiv).append($(saveProfileBtn));
-			}
-            
+
             $(hideableDiv).append($(deleteProfileBtn));
             $(hideableDiv).append($(defaultProfileBtn));
 
+            if (saveProfileBtn != null) {
+                $(hideableDiv).append($(saveProfileBtn));
+            }
 
             HTML profileDiv = new HTML();
             $(profileDiv).append($(profileSpan));
@@ -312,8 +300,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         $(resetBtn).click(new Function() {
             @Override
             public void f() {
-                overlay.hide();
-                overlay.removeFromParent();
+                closeOverlay();
                 rpc.resetProfile();
             }
         });
@@ -336,8 +323,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         $(profileDiv).click(new Function() {
             @Override
             public void f() {
-                overlay.hide();
-                overlay.removeFromParent();
+                closeOverlay();
                 rpc.setSelectedProfile(profile);
             }
         });
@@ -345,23 +331,21 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         $(layout).append($(profileDiv));
         return profileDiv;
     }
-    
+
     private InlineHTML initProfileSaveButton(final String profile, HTML layout) {
-		InlineHTML saveBtn = new InlineHTML();
-		saveBtn.setStyleName(RESAVE_BUTTON_STYLE);
-		saveBtn.setTitle(getMsg(SAVE_PROFILE));
-		$(saveBtn).click(new Function() {
-			@Override
-			public void f() {
-				/*
-				 * overlay.hide(); overlay.removeFromParent();
-				 */
-				rpc.saveProfile(profile, false);
-			}
-		});
-		$(layout).append($(saveBtn));
-		return saveBtn;
-	}
+        InlineHTML saveBtn = new InlineHTML();
+        saveBtn.setStyleName(RESAVE_BUTTON_STYLE);
+        saveBtn.setTitle(getMsg(SAVE_PROFILE));
+        $(saveBtn).click(new Function() {
+            @Override
+            public void f() {
+                closeOverlay();
+                rpc.saveProfile(profile, false);
+            }
+        });
+        $(layout).append($(saveBtn));
+        return saveBtn;
+    }
 
     private InlineHTML initProfileDeleteButton(final String profile, HTML layout) {
         InlineHTML delBtn = new InlineHTML();
@@ -370,8 +354,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         $(delBtn).click(new Function() {
             @Override
             public void f() {
-                overlay.hide();
-                overlay.removeFromParent();
+                closeOverlay();
                 rpc.deleteProfile(profile);
             }
         });
@@ -392,8 +375,7 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         $(defaultProfileBtn).click(new Function() {
             @Override
             public void f() {
-                overlay.hide();
-                overlay.removeFromParent();
+                closeOverlay();
                 if (profile.equals(getState().defaultProfile)) {
                     rpc.setDefaultProfile(null);
                 } else {
@@ -422,9 +404,8 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         $(saveBtn).click(new Function() {
             @Override
             public void f() {
-                overlay.hide();
-                overlay.removeFromParent();
-                rpc.saveProfile(tf.getText());
+                closeOverlay();
+                rpc.saveProfile(tf.getText(), true);
                 rpc.setSelectedProfile(tf.getText());
             }
         });
@@ -432,6 +413,11 @@ public class FilterTableStateConnector extends AbstractExtensionConnector implem
         $(newProfileDiv).append($(saveBtn));
         layout.add(newProfileDiv);
         $(newProfileDiv).slideUp(0);
+    }
+
+    private void closeOverlay() {
+        overlay.hide();
+        overlay.removeFromParent();
     }
 
     private String getMsg(FilterTableStateMessageKey key) {
