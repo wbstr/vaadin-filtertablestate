@@ -66,6 +66,7 @@ public class FilterTableStateGenerator {
         columnInfo.setCollapsed(filterTable.isColumnCollapsed(propertyId));
         columnInfo.setFilter(filterTable.getFilterFieldValue(propertyId));
         columnInfo.setWidth(filterTable.getColumnWidth(propertyId));
+        columnInfo.setWidthRatio(filterTable.getColumnExpandRatio(propertyId));
         columnInfo.setIndex(getColumnIndex(filterTable, propertyId));
         if (propertyId.equals(filterTable.getSortContainerPropertyId())) {
             if (filterTable.isSortAscending()) {

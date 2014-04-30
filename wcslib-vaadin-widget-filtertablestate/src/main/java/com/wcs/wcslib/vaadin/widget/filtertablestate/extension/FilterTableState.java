@@ -54,12 +54,12 @@ public class FilterTableState extends AbstractExtension {
         }
 
         @Override
-        public void saveProfile(String profileName) {
+        public void saveProfile(String profileName, boolean newProfile) {
             if (profileName.isEmpty()) {
                 Notification.show(getMsg(PROFILE_NAME_REQUIRED), Notification.Type.ERROR_MESSAGE);
                 return;
             }
-            if (getState().stateProfiles.contains(profileName)) {
+            if (newProfile && getState().stateProfiles.contains(profileName)) {
                 Notification.show(getMsg(PROFILE_NAME_EXIST), Notification.Type.ERROR_MESSAGE);
                 return;
             }
@@ -189,7 +189,13 @@ public class FilterTableState extends AbstractExtension {
         for (ColumnInfo columnInfo : columnInfos) {
             table.setFilterFieldValue(columnInfo.getPropertyId(), columnInfo.getFilter());
             table.setColumnCollapsed(columnInfo.getPropertyId(), columnInfo.isCollapsed());
-            table.setColumnWidth(columnInfo.getPropertyId(), columnInfo.getWidth());
+            if (columnInfo.getWidth() < 0 && columnInfo.getWidthRatio() != 0) {
+				table.setColumnExpandRatio(columnInfo.getPropertyId(),
+						columnInfo.getWidthRatio());
+			} else {
+				table.setColumnWidth(columnInfo.getPropertyId(),
+						columnInfo.getWidth());
+			}
             if (columnInfo.getSortOrder().isSorted()) {
                 table.sort(new Object[]{columnInfo.getPropertyId()}, new boolean[]{columnInfo.getSortOrder().isAscending()});
                 table.setSortContainerPropertyId(columnInfo.getPropertyId());

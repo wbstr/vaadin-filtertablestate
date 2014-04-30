@@ -30,13 +30,15 @@ public class ColumnInfo implements Serializable {
     private boolean collapsed;
     private int width;
     private int index;
+    private float widthRatio;
 
-    public ColumnInfo(String propertyId, Object filter, SortOrder sortOrder, boolean collapsed, int width, int index) {
+    public ColumnInfo(String propertyId, Object filter, SortOrder sortOrder, boolean collapsed, int width, float widthRatio, int index) {
         this.propertyId = propertyId;
         this.filter = filter;
         this.sortOrder = sortOrder;
         this.collapsed = collapsed;
         this.width = width;
+        this.widthRatio = widthRatio;
         this.index = index;
     }
 
@@ -74,6 +76,14 @@ public class ColumnInfo implements Serializable {
     public void setWidth(int width) {
         this.width = width;
     }
+    
+    public float getWidthRatio() {
+		return widthRatio;
+	}
+
+	public void setWidthRatio(float widthRatio) {
+		this.widthRatio = widthRatio;
+	}
 
     public SortOrder getSortOrder() {
         return sortOrder;
