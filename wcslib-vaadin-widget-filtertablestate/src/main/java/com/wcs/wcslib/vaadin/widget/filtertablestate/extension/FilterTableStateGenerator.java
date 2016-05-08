@@ -54,7 +54,7 @@ public class FilterTableStateGenerator {
 
     private static void addCollapsedColumns(Set<ColumnInfo> columnInfos, FilterTable filterTable) {
         for (Object propertyId : filterTable.getContainerPropertyIds()) {
-            if (filterTable.isColumnCollapsible(propertyId)) {
+            if (filterTable.isColumnCollapsed(propertyId)) {
                 columnInfos.add(createColumnInfo(propertyId, filterTable));
             }
         }
