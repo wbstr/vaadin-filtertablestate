@@ -31,7 +31,7 @@
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>filteringtable</artifactId>
-            <version>0.9.3.v7</version>
+            <version>0.9.11.v7</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.gwtquery</groupId>
