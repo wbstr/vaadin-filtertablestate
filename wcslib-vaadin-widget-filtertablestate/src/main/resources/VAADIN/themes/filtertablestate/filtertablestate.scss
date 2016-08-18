@@ -1,0 +1,105 @@
+@mixin filtertablestate($primaryStyleName : w-filtertablestate) {
+
+    .#{$primaryStyleName}-button:before{
+        font-size: $v-font-size;
+        font-family: 'FontAwesome';
+    }
+
+    .#{$primaryStyleName}-savebutton{
+        margin-left: 5px;
+        margin-top: 7px;
+    }
+
+    .#{$primaryStyleName}-savebutton:before{
+        content: "\f0c7";
+    }
+    
+    .#{$primaryStyleName}-resavebutton:before{
+        content: "\f0c7";
+    }
+
+    .#{$primaryStyleName}-deletebutton{
+        margin-left: 5px;
+    }
+
+    .#{$primaryStyleName}-deletebutton:before{
+        content: "\f014";
+    }
+
+    .#{$primaryStyleName}-defaultprofilebutton{
+        margin-left: 5px;
+    }
+
+    .#{$primaryStyleName}-defaultprofilebutton:before{
+        content: "\f023";
+    }
+
+    .#{$primaryStyleName}-defaultprofilebutton-open{
+        margin-left: 5px;
+    }
+
+    .#{$primaryStyleName}-defaultprofilebutton-open:before{
+        content: "\f09c";
+    }
+
+    .#{$primaryStyleName}-resetbutton{
+        margin-left: 24px;
+    }
+
+    .#{$primaryStyleName}-resetbutton:before{
+        content: "\f021";
+    }
+
+    .#{$primaryStyleName}-addbutton{
+        margin-left: 5px;
+    }
+
+    .#{$primaryStyleName}-addbutton:before{
+        content: "\f067";
+    }
+
+    .#{$primaryStyleName}-button{
+        cursor: pointer;
+        width: 12px;
+        height: 12px;
+        display: block;
+        background-repeat: no-repeat;
+        background:none;
+        float: right;
+
+        -webkit-transition: all 0.3s ease-in-out; 
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out; 
+    }
+
+    .#{$primaryStyleName}-profile-add-layout input.#{$primaryStyleName}-textfield{
+        margin-left:3px;
+        margin-top: 5px;
+        height:inherit;
+        width: calc(100% - 50px);
+        background-image:none;
+    }
+
+    .#{$primaryStyleName}-layout{
+        padding: 8px !important;
+        min-width: 152px;
+    }
+
+    .#{$primaryStyleName}-item{
+        margin-left: 3px;
+        cursor: pointer;
+        padding-right: 50px;
+    }
+
+    .#{$primaryStyleName}-label{
+        font-weight: bold;
+        font-size: $v-font-size;
+        margin: 3px 0px;
+    }
+
+    .#{$primaryStyleName}-hideable{
+        margin-top: -20px;
+        float:right;
+    }
+
+}

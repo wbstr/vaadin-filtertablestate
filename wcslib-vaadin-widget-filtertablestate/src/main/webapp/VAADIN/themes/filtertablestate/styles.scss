@@ -1,0 +1,61 @@
+@import "../valo/valo";
+@import "../../../VAADIN/themes/filtertablestate/filtertablestate.scss";
+
+.filtertablestate {
+    @include valo;
+    @include filtertablestate;
+
+    .filters-panel{
+        height: $v-unit-size - 1px;
+    }
+
+    .v-table div.filters-panel input.v-textfield.v-widget, 
+    .v-table div.filters-panel .numberfilterpopup{
+        height: $v-unit-size;
+    }
+
+    .v-table div.filters-panel .filterplaceholder, .v-table div.filters-panel > .v-widget{
+        margin-right: -1px;
+    }
+
+    .v-table div.filters-panel .v-popupbutton{
+        height: $v-unit-size;
+        border-radius: 0;
+    }
+
+    .v-table div.filters-panel .v-popup-indicator{
+        background: none;
+        height: 100%;
+        margin-top: -1px;
+
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        cursor: pointer;
+        position: absolute;
+        width: $v-unit-size;
+        top: 1px;
+        right: 1px;
+        bottom: 1px;
+        border-left: 1px solid #e4e4e4;
+        color: #a3a3a3;
+        border-radius: 0 2px 2px 0;
+    }
+    .v-table div.filters-panel .v-popup-indicator:before{
+        font-family: "FontAwesome";
+        content: "\f078";
+        -webkit-transition: color 140ms;
+        -moz-transition: color 140ms;
+        transition: color 140ms;
+        position: absolute;
+        width: $v-unit-size;
+        text-align: center;
+        top: 50%;
+        line-height: 1;
+        margin-top: -0.47em;
+    }
+
+    .v-table div.filters-panel .v-filterselect{
+        border-radius: 0px;
+    }
+    
+}

@@ -15,7 +15,7 @@
     <name>FilterTableState</name>
     
     <properties>
-        <version.vaadin>7.1.0</version.vaadin>
+        <version.vaadin>7.3.0</version.vaadin>
         <widgetset>com.wcs.wcslib.vaadin.widget.filtertablestate.FilterTableStateWidgetSet</widgetset>
     </properties>
 
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>filteringtable</artifactId>
-            <version>0.9.3.v7</version>
+            <version>0.9.11.v7</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.gwtquery</groupId>
@@ -127,16 +127,19 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.1</version>
+                <version>3.0.2</version>
                 <configuration>
                     <archive>
+                        <index>true</index>
                         <manifest>
+                            <addClasspath>true</addClasspath>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                         <manifestEntries>
                             <Vaadin-Package-Version>1</Vaadin-Package-Version>
                             <Vaadin-Widgetsets>${widgetset}</Vaadin-Widgetsets>
                             <License-Title>Apache License 2.0</License-Title>
+                            <Vaadin-Stylesheets>VAADIN/themes/filtertablestate/filtertablestate.scss</Vaadin-Stylesheets>
                         </manifestEntries>
                     </archive>
                 </configuration>

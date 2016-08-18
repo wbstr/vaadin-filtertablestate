@@ -15,6 +15,7 @@
  */
 package com.wcs.wcslib.vaadin.widget.filtertablestate;
 
+import com.vaadin.annotations.Theme;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.Compare;
@@ -27,13 +28,13 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.ClickFunction;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.api.FilterTableStateHandler;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.api.model.ColumnInfo;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.api.model.FilterTableStateProfile;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.api.model.SortOrder;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.extension.FilterTableClickFunctionHandler;
 import com.wcs.wcslib.vaadin.widget.filtertablestate.extension.FilterTableState;
+import com.wcs.wcslib.vaadin.widget.filtertablestate.shared.ClickFunction;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -49,6 +50,7 @@ import org.tepi.filtertable.numberfilter.NumberFilterPopupConfig;
  * The Application's "main" class
  */
 @SuppressWarnings("serial")
+@Theme("filtertablestate")
 public class WidgetTestApplication extends UI {
 
     private VerticalLayout layout;
